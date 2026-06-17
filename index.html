@@ -267,7 +267,7 @@ function setLang(l){lang=l;document.documentElement.lang=l;document.querySelecto
   document.getElementById('email').placeholder=d.ph;document.querySelectorAll('[data-line]').forEach((el,i)=>el.textContent=SCENES[i][l]);
   const cs=document.getElementById('cs');cs.textContent=d.cs;cs.dataset.cs=d.cs;}
 
-const KIT_FORM_ID='';  /* ← paste your Kit (ConvertKit) form id here, e.g. '8123456', then redeploy */
+const KIT_FORM_ID='9576448';  /* Kit (ConvertKit) — BEGIM waitlist form */
 function joinWaitlist(e){e.preventDefault();const inp=document.getElementById('email');const v=inp.value.trim();
   if(!v||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){inp.focus();return false;}
   /* always keep a local backup so no signup is ever lost */
