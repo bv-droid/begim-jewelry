@@ -267,9 +267,13 @@ function setLang(l){lang=l;document.documentElement.lang=l;document.querySelecto
   document.getElementById('email').placeholder=d.ph;document.querySelectorAll('[data-line]').forEach((el,i)=>el.textContent=SCENES[i][l]);
   const cs=document.getElementById('cs');cs.textContent=d.cs;cs.dataset.cs=d.cs;}
 
-function joinWaitlist(e){e.preventDefault();const v=document.getElementById('email').value.trim();if(!v)return false;
-  /* TODO dev: connect Klaviyo / Mailchimp / Shopify Customer API */
+const KIT_FORM_ID='';  /* ← paste your Kit (ConvertKit) form id here, e.g. '8123456', then redeploy */
+function joinWaitlist(e){e.preventDefault();const inp=document.getElementById('email');const v=inp.value.trim();
+  if(!v||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){inp.focus();return false;}
+  /* always keep a local backup so no signup is ever lost */
   try{const k='begim_waitlist';const a=JSON.parse(localStorage.getItem(k)||'[]');a.push({email:v,ts:Date.now(),lang});localStorage.setItem(k,JSON.stringify(a));}catch(_){}
+  /* send to Kit (ConvertKit) — fire-and-forget; the subscribe lands server-side even if CORS hides the response */
+  if(KIT_FORM_ID){try{fetch('https://app.kit.com/forms/'+KIT_FORM_ID+'/subscriptions',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'email_address='+encodeURIComponent(v)}).catch(()=>{});}catch(_){}}
   document.getElementById('wl').style.display='none';document.querySelector('.cta .open').style.display='none';document.getElementById('ok').classList.add('show');return false;}
 
 (function(){const boot=document.getElementById('boot');let done=false;const hide=()=>{if(done)return;done=true;boot.classList.add('hide');setTimeout(()=>boot.remove(),1100);};
