@@ -1,0 +1,26 @@
+# ─── BEGIM launch site: keep only what the live page needs ───
+# (index.html, scenes/, lenis.min.js, favicon.svg, og.jpg, CNAME, README)
+
+# working file + all version backups / experiments
+begim_coming_soon.html
+begim_coming_soon_*.html
+begim_animation*.html
+begim_brandbook*.html
+begim_master_lockup.html
+begim_seal_hero.html
+begim_vensel_tiers.html
+begim_monogram.svg
+
+# heavy source material (originals, renders, docs) — not part of the deploy
+BV_*.mp4
+ChatGPT Image*.png
+*.pdf
+BEGIM_Launch_Pack/
+
+# tooling / OS
+.claude/
+.gstack/
+**/.gstack/
+.DS_Store
+*.map
+node_modules/
