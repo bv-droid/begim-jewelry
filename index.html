@@ -45,17 +45,6 @@
   /* each animal is a full-bleed video; transitions are a 3D turn — the current world swings away and reveals the next */
   .scene{position:absolute;inset:0;opacity:0;backface-visibility:hidden;transform-origin:50% 50%;will-change:transform,opacity}
   .scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  /* elemental veils — animated via transform+opacity only (compositor-cheap, no per-frame repaint) */
-  .fx{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden;mix-blend-mode:screen}
-  .fxdefs{position:absolute;width:0;height:0;overflow:hidden}
-  .fl{position:absolute;inset:-12%;opacity:0;transform-origin:50% 46%;will-change:transform,opacity}
-  .flWater{background:repeating-radial-gradient(circle at 50% 46%, transparent 0 22px, rgba(208,235,255,0) 22px 27px, rgba(210,236,255,.55) 27px 31px, transparent 31px 56px),radial-gradient(circle at 50% 46%, rgba(90,160,240,.16), transparent 55%)}
-  .flAir{inset:0;width:220%;left:-60%;transform-origin:50% 50%;background:repeating-linear-gradient(96deg, transparent 0 20px, rgba(255,255,255,.17) 22px 26px, transparent 28px 56px),repeating-linear-gradient(96deg, transparent 0 70px, rgba(220,235,255,.08) 74px 82px, transparent 92px 172px)}
-  .flFire{inset:0;transform-origin:50% 100%;background:linear-gradient(to top, rgba(255,110,18,.78) 0%, rgba(255,52,8,.5) 22%, rgba(255,150,40,.32) 48%, transparent 74%)}
-  .flLight{background:radial-gradient(circle at 50% 42%, rgba(255,247,215,.6), rgba(255,221,170,.24) 38%, transparent 66%)}
-  .ember,.pollen{position:absolute;bottom:-3%;border-radius:50%;opacity:0;will-change:transform,opacity}
-  .ember{width:5px;height:5px;background:radial-gradient(circle,#ffd27a,#ff7a1e 60%,transparent)}
-  .pollen{width:7px;height:7px;background:radial-gradient(circle,#fff6dc,#efd8a2 55%,transparent)}
   .scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(8,6,4,.4) 0%,rgba(8,6,4,0) 26%,rgba(8,6,4,0) 56%,rgba(8,6,4,.72) 100%)}
   .line{position:absolute;left:0;right:0;bottom:16vh;z-index:2;text-align:center;padding:0 24px;pointer-events:none}
   .line .eye{font-size:11px;letter-spacing:.5em;text-indent:.5em;color:var(--gold-1);text-transform:uppercase;text-shadow:0 1px 10px rgba(0,0,0,.5)}
@@ -94,8 +83,6 @@
   /* ===== jewel crest (Three.js) — moved by scroll ===== */
   .crest{position:fixed;left:50%;top:40.5%;z-index:30;display:flex;flex-direction:column;align-items:center;pointer-events:none;transform:translate(-50%,-50%) scale(1.12);will-change:transform}
   .crest .jwrap{position:relative;z-index:1;filter:drop-shadow(0 16px 30px rgba(120,80,20,.32))}
-  /* elemental aura — the jewel channels the force passing on screen (colour set on element change, opacity per frame) */
-  .crest .aura{position:absolute;left:50%;top:48%;width:200%;height:200%;transform:translate(-50%,-50%);border-radius:50%;opacity:0;z-index:0;pointer-events:none;filter:blur(20px);will-change:opacity;background:radial-gradient(circle,rgba(255,220,150,.6),transparent 62%)}
   #jewel{width:clamp(160px,25vmin,270px);height:clamp(190px,30vmin,320px);display:block}
   .crest .wm{font-family:'Forum',serif;font-size:13px;letter-spacing:.46em;text-indent:.46em;margin-top:2px;
     background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 65%,var(--gold-3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
@@ -135,18 +122,13 @@
   <div class="boot" id="boot"><div class="bw">BEGIM</div></div>
   <div class="mesh"><b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b></div>
   <div class="stage" id="stage"></div>
-  <div class="fx" id="fx"><div class="fl flWater" id="flWater"></div><div class="fl flAir" id="flAir"></div><div class="fl flFire" id="flFire"></div><div class="fl flLight" id="flLight"></div></div>
-  <svg class="fxdefs" width="0" height="0" aria-hidden="true"><defs>
-    <filter id="waterDistort" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB"><feTurbulence type="turbulence" baseFrequency="0.011 0.018" numOctaves="2" seed="6" result="n"/><feDisplacementMap id="waterDisp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
-    <filter id="airDistort" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.024" numOctaves="2" seed="2" result="n"/><feDisplacementMap id="airDisp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
-  </defs></svg>
 
   <div class="hero" id="hero"><div><div class="eye" data-t="eye">EVERY WOMAN, SOVEREIGN</div><div class="sub" data-t="sub">THE HOUSE OF GOLD</div><div class="oath" data-t="oath">ONLY GOLD · ONLY FOREVER</div></div></div>
 
   <div class="cta" id="cta"><div class="cs" id="cs" data-cs="COMING SOON">COMING SOON</div><div class="open" data-t="open">OPENING · SEPTEMBER 2026</div><form id="wl" onsubmit="return joinWaitlist(event)"><input type="email" id="email" required data-ph="your e-mail" placeholder="your e-mail" autocomplete="email" aria-label="email"><button type="submit" class="join" data-t="btn">JOIN THE WAITLIST</button></form><div class="okmsg" id="ok" data-t="ok">Thank you. You will be the first to know.</div><div class="foot">begim.jewelry</div></div>
 
   <div class="flash" id="flash"></div>
-  <div class="crest" id="crest"><div class="aura" id="aura"></div><div class="jwrap"><canvas id="jewel"></canvas></div></div>
+  <div class="crest" id="crest"><div class="jwrap"><canvas id="jewel"></canvas></div></div>
   <div class="lang"><button data-l="en" class="on" onclick="setLang('en')">EN</button><button data-l="ru" onclick="setLang('ru')">RU</button></div>
   <div class="rail" id="rail"></div>
   <div class="cue" id="cue"><i></i><span data-t="cue">SCROLL INTO THE JEWEL</span></div>
@@ -174,16 +156,8 @@ const SCENES=[
   {k:'flamingo',en:'Poise is everything',ru:'Осанка решает всё',e:'POISE',eye:'50% 22%'}
 ];
 const N=SCENES.length; let lang='en'; window.__scrollP=0;
-const stage=document.getElementById('stage'),hero=document.getElementById('hero'),cta=document.getElementById('cta'),flash=document.getElementById('flash'),crest=document.getElementById('crest'),cueEl=document.getElementById('cue'),csEl=document.getElementById('cs'),jewelEl=document.getElementById('jewel'),fx=document.getElementById('fx');
-/* which natural force carries each transition (one per gap between scenes), along the colour journey */
-const ELEM=['water','air','light','fire','fire','air'];
-const flWater=document.getElementById('flWater'),flAir=document.getElementById('flAir'),flFire=document.getElementById('flFire'),flLight=document.getElementById('flLight'),waterDisp=document.getElementById('waterDisp'),airDisp=document.getElementById('airDisp'),aura=document.getElementById('aura');
-const AURA={fire:'radial-gradient(circle,rgba(255,120,40,.72),transparent 60%)',water:'radial-gradient(circle,rgba(120,190,255,.6),transparent 62%)',air:'radial-gradient(circle,rgba(225,240,255,.5),transparent 64%)',light:'radial-gradient(circle,rgba(255,240,190,.66),transparent 62%)'};
-let lastAuraE='';
-window.__fxState={e:'',k:0};
-const isLite=matchMedia('(max-width:680px),(pointer:coarse)').matches;  /* phones/tablets: drop the heaviest GPU effects, keep the look */
-const embers=[];for(let i=0;i<(isLite?6:14);i++){const e=document.createElement('span');e.className='ember';e.style.left=(6+Math.random()*88)+'%';e.dataset.s=(0.5+Math.random()).toFixed(2);e.dataset.x=(Math.random()*40-20).toFixed(0);fx.appendChild(e);embers.push(e);}
-const pollen=[];for(let i=0;i<(isLite?8:18);i++){const e=document.createElement('span');e.className='pollen';e.style.left=(3+Math.random()*94)+'%';e.dataset.s=(0.5+Math.random()*0.9).toFixed(2);e.dataset.x=(Math.random()*10-5).toFixed(1);e.dataset.y=(Math.random()*0.5).toFixed(2);fx.appendChild(e);pollen.push(e);}
+const stage=document.getElementById('stage'),hero=document.getElementById('hero'),cta=document.getElementById('cta'),flash=document.getElementById('flash'),crest=document.getElementById('crest'),cueEl=document.getElementById('cue'),csEl=document.getElementById('cs'),jewelEl=document.getElementById('jewel');
+const isLite=matchMedia('(max-width:680px),(pointer:coarse)').matches;  /* phones/tablets: lighten everything for 60fps */
 const sceneEls=[],lineEls=[],videoEls=[];
 SCENES.forEach((s,i)=>{const d=document.createElement('div');d.className='scene';d.dataset.i=i;
   d.innerHTML=`<video src="scenes/${s.k}.mp4" poster="scenes/${s.k}-poster.jpg" muted loop playsinline preload="none"></video><div class="scrim"></div><div class="line"><div class="eye">${s.e}</div><h2 data-line>${s[lang]}</h2></div>`;
@@ -199,7 +173,8 @@ const ENTER=0.10, CS=0.86;
 
 /* Lenis (async) for premium inertia; native progress always works */
 let lenis=null;
-(function(){const start=()=>{if(!window.Lenis||lenis)return;try{lenis=new Lenis({lerp:0.09,wheelMultiplier:1,touchMultiplier:1.6});(function lr(t){lenis.raf(t);requestAnimationFrame(lr);})();}catch(_){}};
+(function(){if(isLite)return;  /* mobile: native momentum scroll (smoother than JS smooth-scroll on phones) */
+  const start=()=>{if(!window.Lenis||lenis)return;try{lenis=new Lenis({lerp:0.09,wheelMultiplier:1,touchMultiplier:1.6});(function lr(t){lenis.raf(t);requestAnimationFrame(lr);})();}catch(_){}};
   /* load as a module so Lenis's minified top-level vars don't collide with the page globals (it still sets globalThis.Lenis) */
   const sc=document.createElement('script');sc.type='module';sc.src='lenis.min.js';sc.onload=start;
   sc.onerror=()=>{const cd=document.createElement('script');cd.type='module';cd.src='https://unpkg.com/lenis@1.1.14/dist/lenis.min.js';cd.onload=start;document.head.appendChild(cd);};
@@ -232,56 +207,27 @@ function scrub(){
     ty=lerp(ty,tyTarget,back);
   }
   crest.style.transform=`translate(calc(-50% + ${tx.toFixed(1)}px), calc(-50% + ${ty.toFixed(1)}px)) scale(${sc.toFixed(3)})`;
-  // scenes — immersive elemental transitions: each world is dissolved by a natural force (water / fire / air / light)
+  // scenes — "depth dive": fly forward through the worlds. Pure scale + opacity → 60fps, no filters/masks.
   const p2=clamp((p-ENTER)/(CS-ENTER),0,1), af=p2*(N-1);
-  const gate=smooth(0.06,0.13,p)*(1-smooth(0.82,0.90,p));   /* hidden in hero & on coming-soon → light bg shows */
+  const gate=smooth(0.06,0.13,p)*(1-smooth(0.82,0.90,p));   /* hidden in hero & on coming-soon */
   let best=0,bd=9;
   sceneEls.forEach((el,i)=>{const d=af-i,ad=Math.abs(d);
-    let op,z,tr='none',fil='none',mask='none';
-    if(d>=0){ /* current/leaving — dissolved by the element of the transition i→i+1, revealing the next flat behind */
-      const e=ELEM[i]||'water', k=smooth(0,1,d); z=3;
-      const dispK=Math.sin(Math.PI*clamp(d,0,1));
-      if(d<0.012){ op=1; }
-      else if(e==='air'){ op=clamp(1-smooth(0.05,0.84,d),0,1); tr=`translateX(${(-k*24).toFixed(1)}vw) skewX(${(-k*8).toFixed(1)}deg) scale(${(1+k*0.12).toFixed(3)})`; if(isLite){fil=`blur(${(k*3).toFixed(1)}px)`;}else{fil=`blur(${(k*11).toFixed(1)}px) url(#airDistort)`;airDisp.setAttribute('scale',(dispK*34).toFixed(1));} }
-      else if(e==='fire'){ op=clamp(1-smooth(0.85,1.0,d),0,1); const m=d*130; mask=`linear-gradient(to top, transparent ${m.toFixed(0)}%, rgba(0,0,0,.45) ${(m+13).toFixed(0)}%, #000 ${(m+26).toFixed(0)}%)`; fil=`brightness(${(1+k*0.18).toFixed(2)}) contrast(${(1+k*0.22).toFixed(2)})`; }
-      else if(e==='water'){ op=clamp(1-smooth(0.14,0.9,d),0,1); tr=`scale(${(1+k*0.1).toFixed(3)})`; const wb=`brightness(${(1-k*0.06).toFixed(2)}) saturate(${(1+k*0.3).toFixed(2)})`; if(isLite){fil=wb;}else{fil=`${wb} url(#waterDistort)`;waterDisp.setAttribute('scale',(dispK*26).toFixed(1));} }
-      else { op=clamp(1-smooth(0.1,0.85,d),0,1); fil=`brightness(${(1+k*0.28).toFixed(2)})`; }   /* light */
-    }else{ /* next — flat, full, behind */
-      const a=clamp(1+d,0,1); op=a>0.012?1:0; z=2;
+    let op,scl,z;
+    if(d>=0){ /* current world rushes toward you — scales up and dissolves as we pass through it */
+      scl=1+smooth(0,1,d)*0.7; op=clamp(1-smooth(0.15,0.92,d),0,1); z=3;
+    }else{ /* next world resolves in from the depth behind */
+      const a=clamp(1+d,0,1); scl=1; op=clamp(smooth(0,0.8,a),0,1); z=2;
     }
     op*=gate;
     el.style.opacity=op.toFixed(3); el.style.zIndex=z;
-    el.style.transform=tr;
-    el.style.webkitMaskImage=mask; el.style.maskImage=mask;
-    videoEls[i].style.filter=fil;
-    lineEls[i].style.opacity=(clamp(1.3-ad*3.0,0,1)*gate).toFixed(3);
+    el.style.transform=`scale(${scl.toFixed(4)})`;
+    lineEls[i].style.opacity=(clamp(1.3-ad*2.8,0,1)*gate).toFixed(3);
     if(ad<bd){bd=ad;best=i;}});
-  renderFx(af,gate);
   railEl.style.opacity=gate.toFixed(2); railEl.style.pointerEvents=gate>0.3?'auto':'none';
   if(best!==cur){cur=best;videoEls.forEach((v,i)=>{if(i===best)v.play().catch(()=>{});else if(Math.abs(i-best)>1)v.pause();});
     const nx=videoEls[best+1];if(nx&&nx.preload==='none'){nx.preload='auto';nx.load();}
     rail.forEach((rk,i)=>rk.classList.toggle('on',i===best));}
   requestAnimationFrame(scrub);
-}
-/* elemental veil — only transform+opacity per frame (compositor), no repaint. Refraction filters live on the leaving scene. */
-function setOp(el,v){const s=v.toFixed(3);if(el.style.opacity!==s)el.style.opacity=s;}
-function renderFx(af,gate){
-  const off=gate<0.01||af<=0.02||af>=N-1.02;
-  const seg=clamp(Math.floor(af),0,N-2), tt=clamp(af-seg,0,1), e=off?'':(ELEM[seg]||'water');
-  const bell=off?0:Math.sin(Math.PI*tt);
-  if(e==='water'){setOp(flWater,bell*0.9*gate);flWater.style.transform=`scale(${(0.25+tt*2.4).toFixed(3)})`;}else setOp(flWater,0);
-  if(e==='air'){setOp(flAir,bell*0.85*gate);flAir.style.transform=`translateX(${(tt*42-21).toFixed(1)}%)`;}else setOp(flAir,0);
-  if(e==='fire'){setOp(flFire,bell*0.95*gate);flFire.style.transform=`scaleY(${(0.25+tt*1.05).toFixed(3)})`;}else setOp(flFire,0);
-  if(e==='light'){setOp(flLight,bell*0.85*gate);flLight.style.transform=`scale(${(0.6+tt*0.8).toFixed(3)})`;}else setOp(flLight,0);
-  if(e==='fire'){const rise=smooth(0,1,tt);for(let j=0;j<embers.length;j++){const em=embers[j];setOp(em,bell*0.95);em.style.transform=`translate(${(parseFloat(em.dataset.x)*rise).toFixed(0)}px,${(-rise*112-(j%5)*5).toFixed(0)}vh) scale(${em.dataset.s})`;}}
-  else for(let j=0;j<embers.length;j++)setOp(embers[j],0);
-  if(e==='air'){const dr=smooth(0,1,tt);for(let j=0;j<pollen.length;j++){const pp=pollen[j];setOp(pp,bell*0.9);pp.style.transform=`translate(${(-dr*20+parseFloat(pp.dataset.x)).toFixed(1)}vw,${(-dr*(45+parseFloat(pp.dataset.y)*40)-(j%6)*4).toFixed(0)}vh) scale(${pp.dataset.s})`;}}
-  else for(let j=0;j<pollen.length;j++)setOp(pollen[j],0);
-  /* the jewel channels the force: aura glows in the element's colour, and the 3D gold reacts (see tick) */
-  const kk=e?bell*gate:0;
-  window.__fxState.e=e; window.__fxState.k=kk;
-  if(e&&e!==lastAuraE){aura.style.background=AURA[e]||AURA.water;lastAuraE=e;}
-  setOp(aura,kk*0.9);
 }
 requestAnimationFrame(scrub);
 
@@ -338,7 +284,6 @@ try{
   const rim=new THREE.DirectionalLight(0xdfeeff,1.7);rim.position.set(-4,-1,-5);scene.add(rim);       /* cool back-rim lights the edges */
   const fill=new THREE.DirectionalLight(0xffe6bf,0.9);fill.position.set(0,-4,3);scene.add(fill);      /* warm under-fill so the lower G isn't dark */
   scene.add(new THREE.AmbientLight(0xffffff,0.10));
-  const fxLight=new THREE.PointLight(0xffffff,0,40);fxLight.position.set(0,0,4.5);scene.add(fxLight);   /* coloured by the current element */
   const group=new THREE.Group();scene.add(group);
   const gold=new THREE.MeshPhysicalMaterial({color:0xF2BE4D,metalness:1.0,roughness:0.13,clearcoat:0.35,clearcoatRoughness:0.12,envMapIntensity:1.3});
   const paths=new SVGLoader().parse(MONO).paths;const shapes=[];
@@ -350,19 +295,14 @@ try{
   const baseScale=2.7/Math.max(sz.x,sz.y);group.scale.setScalar(baseScale);
   function resize(){const r=canvas.getBoundingClientRect();if(r.width)renderer.setSize(r.width,r.height,false);camera.aspect=(r.width||1)/(r.height||1);camera.updateProjectionMatrix();}
   addEventListener('resize',resize);resize();
-  let rot=0;const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const ECOL={fire:[1.0,0.34,0.08],water:[0.24,0.62,1.0],air:[0.82,0.9,1.0],light:[1.0,0.92,0.66]};
-  function tick(t){const P=window.__scrollP||0;const target=P*Math.PI*2.0;rot+=(target-rot)*0.07;
-    const fxs=window.__fxState||{e:'',k:0}, c=ECOL[fxs.e]||[1,1,1], k=fxs.k||0;
-    fxLight.color.setRGB(c[0],c[1],c[2]); fxLight.intensity=k*4.2;                 /* jewel lit by the passing force */
-    gold.emissive.setRGB(c[0],c[1],c[2]); gold.emissiveIntensity=k*0.4;            /* gold glows the element's colour */
-    const airSway=fxs.e==='air'?k*0.22:0, fire=fxs.e==='fire'?k:0, water=fxs.e==='water'?k:0;
-    group.rotation.y=reduce?rot:(rot+Math.sin(t*0.00035)*(0.12+airSway)+Math.sin(t*0.013)*airSway*0.5);
+  let rot=0,fcount=0;const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function tick(t){requestAnimationFrame(tick);
+    if(lite){if(fcount++&1)return;}                                  /* mobile: render the jewel at ~30fps to free the main thread */
+    const P=window.__scrollP||0;const target=P*Math.PI*2.0;rot+=(target-rot)*0.07;
+    group.rotation.y=reduce?rot:(rot+Math.sin(t*0.00035)*0.12);
     group.rotation.x=-0.06+(reduce?0:Math.sin(t*0.00028)*0.04);
-    group.rotation.z=reduce?0:Math.sin(t*0.006)*water*0.1;                          /* water wobble */
-    group.scale.setScalar(baseScale*(1+(reduce?0:Math.sin(t*0.022)*fire*0.05)));    /* fire flicker */
-    gold.envMapIntensity=1.3+k*0.6+(P>0.86?Math.sin(t*0.004)*0.4+0.4:0);
-    renderer.render(scene,camera);requestAnimationFrame(tick);}
+    gold.envMapIntensity=1.3+(P>0.86?Math.sin(t*0.004)*0.4+0.4:0);   /* shimmer on coming-soon */
+    renderer.render(scene,camera);}
   requestAnimationFrame(tick);
 }catch(err){const c=document.getElementById('jewel');if(c)c.style.display='none';console.warn('jewel:',err);}
 </script>
